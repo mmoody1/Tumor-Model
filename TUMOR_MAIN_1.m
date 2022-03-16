@@ -1,5 +1,5 @@
 function TUMOR_MAIN_1
-
+%tumor model
 clear all
 
 s = 0.33;       % Influx of Immune cells when tumor cells present

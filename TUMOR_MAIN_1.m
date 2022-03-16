@@ -38,3 +38,5 @@ subplot(3,1,3)
 plot(t,N(:,3));
     xlabel('time')
     ylabel('immune cells')
+legend('Normal Cells', 'Tumor Cells', 'Immune Cells')
+

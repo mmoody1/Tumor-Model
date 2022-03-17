@@ -1,7 +1,10 @@
 function TUMOR_MAIN_1
-%tumor model
 clear all
 
+% TUMOR_MAIN_1: Main program for tumor model
+% TUMOR_ODE defines the ODEs for tumor model
+
+% Input Parameters
 s = 0.33;       % Influx of Immune cells when tumor cells present
 d1 = 0.2;       % Death rate of immune cells in the absence of tumors
 r1 = 1.5;       % Growth rate associated with tumor cells
@@ -24,19 +27,33 @@ N0 = [N10 N20 N30];
 
 [t, N] = ode45('TUMOR_ODE',[0 tend], N0,[],s,d1,r1,r2,b1,b2,c1,c2,c3,c4,alpha,ro);
 
+% Plots the normal cell population over time t
 subplot(3,1,1)
 plot(t,N(:,1));
     xlabel('time')
     ylabel('normal cells')
 
+% Plots the tumor cell population over time t
 subplot(3,1,2)
 plot(t,N(:,2));
     xlabel('time')
     ylabel('tumor cells')
 
+% Plots the immune cell population over time t
 subplot(3,1,3)
 plot(t,N(:,3));
     xlabel('time')
     ylabel('immune cells')
-legend('Normal Cells', 'Tumor Cells', 'Immune Cells')
+    
+pause
 
+% Plots all cell types over time t
+figure
+hold on
+plot(t,N(:,1));
+plot(t,N(:,2));
+plot(t,N(:,3));
+    xlabel('time')
+    ylabel('cell population')
+legend('Normal Cells', 'Tumor Cells', 'Immune Cells')
+hold off

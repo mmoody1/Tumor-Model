@@ -1,6 +1,8 @@
 function TUMOR_MAIN_1
 %tumor model
 clear all
+clc
+clf
 
 s = 0.33;       % Influx of Immune cells when tumor cells present
 d1 = 0.2;       % Death rate of immune cells in the absence of tumors
@@ -40,26 +42,37 @@ plot(t,N(:,3));
     ylabel('immune cells')
 legend('Normal Cells', 'Tumor Cells', 'Immune Cells')
 
- subplot(5,1,4)
-  %%plotting nullcines
-T=N(:,2);
-I=N(:,3);
-Xnull= (r2-c4.*T)./(r2.*b2);%nullcline of N
-Tnull= (r1-c2.*I-c3.*N)./(r1.*b1); %nullcline of T
-Inull = (s.*alpha+s.*T)/((c1.*T+d1).*(alpha+T)-(ro.*T)); %nullcline of I
-plot(T,Xnull,'b') %plot ofnd tumor cells on axes
-hold on
-plot(T,Tnull,'y')
-hold off
-xlim([.44 .55]); ylim([0 1]); xlabel('Tumor Cell Population'), ylabel('Normal Cell Population')
-legend('Xnull', 'Tnull')
-hold off
 
-%plot of immune and tumor cell nullclines
-subplot(5,1,5)
-plot(I,Tnull,'b') %plot ofnd tumor cells on axes
+ %%plotting nullcines
+figure
+
+T = linspace(0,1,20); 
+ N = linspace(0,1,20);
+ I = linspace(0,1,20);
+
+ %nullsurface of N
+ [T1, I1] = meshgrid(T, I);
+Nn= 1/b2 - (c4/(r2*b2).*T);
+surf(Nn,T1, I1)
 hold on
-plot(I,Inull,'y')
-hold off
-xlim([.44 .55]); ylim([0 1]); xlabel('Immune Cell Population'), ylabel('Tumor Cell Population')
-legend('Xnull', 'Tnull')
+
+%nullsurface of T
+ [N1, I1] = meshgrid(N, I);
+Nt = 1/b2 - c2/(r1*b1).*I - (c3/(r1*b1))*N 
+surf(N1, Nt, I1)
+
+ hold on
+[N1, T1] = meshgrid(N, T);
+Ni =   (s.*(alpha + T))./((c1.*T + d1).*(alpha + T) - ro.*T) %nullsurface of I
+ surf(N1, T1, Ni)
+
+surf(N, Nt, I)
+xlabel('Normal cells')
+ylabel('Tumor cells')
+zlabel('Immune cells')
+ hold off
+
+% axis('equal')
+ 
+
+

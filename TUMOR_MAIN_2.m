@@ -20,14 +20,14 @@ ro = 0.01;      % Immune response rate
 a1 = 0.2;       % cell kill rate for drugs on immune cells
 a2 = 0.3;       % cell kill rate for drugs on tumor cells
 a3 = 0.1;       % cell kill rate for drugs on normal cells
-v = 0;          % amount of drug dose v(t)
+v = 1.0;          % amount of given drug dose v(t)
 
 % Initial Conditions
 N10 = 1;            % Initial normal cell population
-N20 = 0.25;         % Initial tumor cell population
+N20 = 0.2;         % Initial tumor cell population %For a large tumor burden
 N30 = 0.10;         % Initial immune cell population for 10% healthy person
-N40 = 0;            % Initial drug concentration
-tend = 100;         % Simulation length (time)
+N40 = 0;    % initial amount of drug at tumor site
+tend = 90;         % Simulation length (time) 3 months
 
 N0 = [N10 N20 N30 N40];
 
@@ -35,52 +35,55 @@ N0 = [N10 N20 N30 N40];
 
 
 % Plots the normal cell population over time t
-subplot(3,1,1)
+subplot(4,1,1)
 plot(t,N(:,1));
     xlabel('time')
     ylabel('normal cells')
 
 % Plots the tumor cell population over time t
-subplot(3,1,2)
+subplot(4,1,2)
 plot(t,N(:,2));
     xlabel('time')
     ylabel('tumor cells')
 
 % Plots the immune cell population over time t
-subplot(3,1,3)
+subplot(4,1,3)
 plot(t,N(:,3));
     xlabel('time')
     ylabel('immune cells')
 
-figure
+% %Plots the drug concentration once injected
+subplot(4,1,4)
+plot(t, N(:,4));
+xlabel('Time');
+ylabel('Drug concentration');
 
-% Plots for Nullclines
-
-subplot(2,1,1)
-%T=N(:,2);
-T = linspace(0,1,20);
-%I=N(:,3);
-I= linspace(0,1,20);
-N= linspace(0,1,20);
-Xnull= (r2-c4.*T)./(r2.*b2);%nullcline of N
-Tnull= (r1-c2.*I-c3.*N)./(r1.*b1); %nullcline of T
-Inull= (s.*alpha+s.*T)/((c1.*T+d1).*(alpha+T)-(ro.*T)); %nullcline of I
-
-
-plot(T,Xnull,'b') %plot ofnd tumor cells on axes
-hold on
-plot(T,Tnull,'r')
-hold off
-xlim([.44 .55]); ylim([0 1]); xlabel('Tumor Cell Population'), ylabel('Normal Cell Population')
-legend('Xnull', 'Tnull')
-hold off
-
-%plot of immune and tumor cell nullclines
-subplot(2,1,2)
-plot(I,Tnull,'b') %plot ofnd tumor cells on axes
-hold on
-plot(I,Inull,'r')
-hold off
-xlim([.44 .55]); ylim([0 1]); xlabel('Immune Cell Population'), ylabel('Tumor Cell Population')
-legend('Inull', 'Tnull')
-
+% % Plots for Nullclines
+% 
+% subplot(2,1,1)
+% %T=N(:,2);
+% T = linspace(0,1,20);
+% %I=N(:,3);
+% I= linspace(0,1,20);
+% N= linspace(0,1,20);
+% Xnull= (r2-c4.*T)./(r2.*b2);%nullcline of N
+% Tnull= (r1-c2.*I-c3.*N)./(r1.*b1); %nullcline of T
+% Inull= (s.*alpha+s.*T)/((c1.*T+d1).*(alpha+T)-(ro.*T)); %nullcline of I
+% 
+% 
+% plot(T,Xnull,'b') %plot ofnd tumor cells on axes
+% hold on
+% plot(T,Tnull,'r')
+% hold off
+% xlim([.44 .55]); ylim([0 1]); xlabel('Tumor Cell Population'), ylabel('Normal Cell Population')
+% legend('Xnull', 'Tnull')
+% hold off
+% 
+% %plot of immune and tumor cell nullclines
+% subplot(2,1,2)
+% plot(I,Tnull,'b') %plot ofnd tumor cells on axes
+% hold on
+% plot(I,Inull,'r')
+% hold off
+% xlim([.44 .55]); ylim([0 1]); xlabel('Immune Cell Population'), ylabel('Tumor Cell Population')
+% legend('Inull', 'Tnull')

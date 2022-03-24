@@ -3,9 +3,8 @@ function TUMOR_MAIN_0
 clear all
 clc
 clf
-%  Np(1) = s+((ro*I*T)/(sigma+T))-c1*I*T-d1*I; %immune cells
-%     Np(2) = a*T*(1-b*T)-c2*I*T; %tumor cells
-s = 0.1181 % Constant immune cells source rate (#cells/day)
+%input parameter values
+s = 0.1181; % Constant immune cells source rate (#cells/day)
 sigma = 20.19; % Steepness coefficient (#cells/day)
 ro = 1.131; % Tumor recruitment rate of immune cells (1/day) 
 c1 = 0.00311; % Tumor deactivation rate of immune cells (1/cell*day)
@@ -16,13 +15,14 @@ c2 = 1; %Immune kill rate of tumor cells (1/cell*day)
 
 
 
-N10 = 0.5;        % Initial Immune cell population
-N20 = 10;        % Initial tumor cell population
-tend = 50;      % Simulation length (time)
+N10 = 0.00001;   % Initial Immune cell population
+N20 = 10;        % Initial tumor cell population for a large tumor
+%N20= 1;         % Initial tumor cell population for a small tumor
+tend = 50;       % Simulation length (time)
 
 N0 = [N10 N20];
 
-[t, N] = ode45('TUMOR_ODE_0',[0 tend], N0,[],s,ro,sigma,c1,d1,a,b,c2);
+ [t, N] = ode23s('TUMOR_ODE_0',[0 tend], N0,[],s,d1,c1,a,b,c2,sigma,ro);
 
 subplot(2,1,1)
 plot(t,N(:,1));
@@ -34,6 +34,5 @@ plot(t,N(:,2));
     xlabel('time')
     ylabel('tumor cells')
 
-%legend('Immune cells', 'Tumor Cells')
-
+legend('Immune cells', 'Tumor Cells')
 

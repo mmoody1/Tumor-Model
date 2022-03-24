@@ -1,9 +1,9 @@
-function Np = TUMOR_ODE_0(t,N,flag,s,d1,c1,a,b,c2,sigma,ro)
+function Np = TUMOR_ODE(t,N,flag,s,d1,a,b,c1,c2,sigma,ro)  
    %TUMOR_ODE defines the ODEs for the Tumor Model
    
    % INPUT parameters:
      %s is constant immune cells source rate (#cells/day)
-% sigma is the steepness coefficient (#cells/day)
+% alpha is the steepness coefficient (#cells/day)
 % ro is the tumor recruitment rate of immune cells (1/day) 
 % c1 is the tumor deactivation rate of immune cells (1/cell*day)
 % d1 is the natural death rate of immune cells (1/day)
@@ -21,6 +21,8 @@ Np=zeros(size(N));
     I=N(2); %immune cell population
 
   
-    Np(1) = s+((ro*I*T)/(sigma+T))-c1*I*T-d1*I; %immune cells equation
-    Np(2) = a*T*(1-b*T)-c2*I*T; %tumor cells equation
+    Np(1) = s+(ro*I*T)/(sigma+T)-c1*I*T-d1*I;    %immune cells equation
+    Np(2) = a*T*(1-b*T)-c2*I*T;                    %tumor cells equation
+
+end
     

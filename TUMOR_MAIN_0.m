@@ -1,9 +1,10 @@
 function TUMOR_MAIN
-opengl software
+% opengl software
 %tumor model
 clear all
 clc
 clf
+close all
 %input parameter values
 
 s = 0.1181; % Constant immune cells source rate (#cells/day)
@@ -17,8 +18,8 @@ c2 = 1; %Immune kill rate of tumor cells (1/cell*day)
 
 
 N10 = 0.00001;   % Initial Immune cell population
-N20 = 1;        % Initial tumor cell population for a large tumor
-%N20= 1;         % Initial tumor cell population for a small tumor
+N20 = 1;        % Initial tumor cell population for a small tumor burden (x10^6)
+%N20= 10;         % Initial tumor cell population for a large tumor burden
 tend = 150;       % Simulation length (time)
 
 N0=[N10 N20];
@@ -42,22 +43,28 @@ plot(N(:,1),N(:,2),'r');
     ylabel('Tumor cells')
 
  figure
-%Nullclines
-I1 = linspace(0,5,11);
-T1 = linspace(0,500,11);
+%Plotting Nullclines and indicating fixed points
 
-%Nullcline of Immune cells
-Ni = s.*(sigma + T1)./((c1.*T1).*(sigma + T1) + d1.*(sigma+T1)-ro.*T1);
-Ti= (a.*(1-b.*T1))./c2 ;
-plot(I1,Ni,'m');
+T1 = linspace(0,1000);
+
+%%Nullcline of Immune cells
+Nullcline1 = s.*(sigma + T1)./((c1.*T1 + d1).*(sigma + T1)-ro.*T1); %dI/dt = 0
+Nullcline2= (a.*(1-b.*T1))./c2 ; %dT/dt = 0
+plot(Nullcline1, T1,'m');
+xlim([0 3]); %set based on figure 7 in paper and intercepts calculated from Nullcline2
+ylim([100 1000]); %chopped off unwanted part of that curve so the graph fits better on the screen
+  hold on
+ plot(Nullcline2, T1,'r'); 
 hold on
-plot(I1,Ti,'r');
-xlabel('Immune cell population');
-ylabel('Tumor Cell population');
-legend('Immune cells', 'Tumor Cells')
+%fixed points drawn as an x
+plot (0.181778,444.444, 'kx'); 
+plot(0.743636,272.727, 'kx');
+plot(0.97499,202.02, 'kx');
+
+xlabel('Immune cell population (X10^6)');
+ylabel('Tumor Cell population (X10^6)');
+legend('N1 (dI/dt = 0)', 'N2 (dT/dt = 0)', '(0.181, 444.44) Fixed point', ' (0.744, 272.73) Fixed point','(0.97499,202.02) Fixed point')
 title('Immune cells vs Tumor cells')
-plot (2.5,0.818, 'rx'); %still working on nailing that fixed point...also one more i havent been able to highlight yet
-plot(4.5,0.1636, 'rx');
 hold off
 
 

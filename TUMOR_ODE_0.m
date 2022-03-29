@@ -25,4 +25,3 @@ Np=zeros(size(N));
     Np(2) = a*T*(1-b*T)-c2*I*T;                    %tumor cells equation
 
 end
-    

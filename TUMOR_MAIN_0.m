@@ -1,5 +1,5 @@
 function TUMOR_MAIN
- opengl software
+%  opengl software
 %tumor model
 clear all
 clc
@@ -18,9 +18,9 @@ c2 = 1; %Immune kill rate of tumor cells (1/cell*day)
 
 
 N10 = 0.00001;   % Initial Immune cell population
-N20 = 1;        % Initial tumor cell population for a small tumor burden (x10^6)
-%N20= 10;         % Initial tumor cell population for a large tumor burden
-tend = 60;       % Simulation length (time)
+%N20 = 1;        % Initial tumor cell population for a small tumor burden (x10^6)
+N20= 10;         % Initial tumor cell population for a large tumor burden
+tend = 50;       % Simulation length (time)
 
 N0=[N10 N20];
 
@@ -62,25 +62,32 @@ T1 = linspace(0,1000);
 %%Nullcline of Immune cells
 Nullcline1 = s.*(sigma + T1)./((c1.*T1 + d1).*(sigma + T1)-ro.*T1); %dI/dt = 0
 Nullcline2= (a.*(1-b.*T1))./c2 ; %dT/dt = 0
-plot(Nullcline1, T1,'m');
-xlim([0 3]); %set based on figure 7 in paper and intercepts calculated from Nullcline2
-ylim([100 1000]); %chopped off unwanted part of that curve so the graph fits better on the screen
-  hold on
- plot(Nullcline2, T1,'r'); 
+%Quiver
+% [x,y] = meshgrid(0:3, 0:500);
+% u = s+(ro.*x.*y)./(sigma+y)-c1.*x.*y-d1.*x;
+% v = a.*x.*(1-b.*y)-c2.*x.*y; 
+% quiver(x,y,u,v); 
 hold on
+plot(Nullcline1, T1,'k');
+xlim([0 3]); 
+ylim([100 600]); %re-scaled
+  hold on
+ plot(Nullcline2, T1,'k--'); 
+ hold on
 
-%fixed points drawn as an x
-plot (0.181778,444.444, 'kx'); 
-plot(0.743636,272.727, 'kx');
-plot(0.97499,202.02, 'kx');
+ 
 
-%labeling and legend
+% fixed points drawn as an x
+plot (0.181778,444.444444444444, 'ro'); 
+plot(0.763467,266.667, 'bo');
+plot(0.97499,202.02, 'bo');
+
+% labeling and legend
 xlabel('Immune cell population (X10^6)');
 ylabel('Tumor Cell population (X10^6)');
-legend('N1 (dI/dt = 0)', 'N2 (dT/dt = 0)', '(0.181, 444.44) Fixed point', ' (0.744, 272.73) Fixed point','(0.97499,202.02) Fixed point')
-title('Immune cells vs Tumor cells')
-  
+legend('N1 (dI/dt = 0)', 'N2 (dT/dt = 0)', 'A(0.181, 444.44) Stable Fixed point', ' B(0.744, 272.73) Unstable Fixed point','C(0.97499,202.02) Unstable Fixed point');
+title('Immune cells vs Tumor cells');
+   
 hold off
 
-
-end
+%end

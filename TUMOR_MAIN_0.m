@@ -4,7 +4,7 @@ function TUMOR_MAIN
 clear all
 clc
 clf
-%close all
+close all
 %input parameter values
 
 s = 0.1181; % Constant immune cells source rate (#cells/day)

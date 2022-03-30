@@ -4,11 +4,11 @@ function TUMOR_MAIN
 clear all
 clc
 clf
-close all
+%close all
 %input parameter values
 
 s = 0.1181; % Constant immune cells source rate (#cells/day)
-sigma = 20.19; % Steepness coefficient (#cells/day)
+sigma = 20.19; % immune threshold rate
 ro = 1.131; % Tumor recruitment rate of immune cells (1/day) 
 c1 = 0.00311; % Tumor deactivation rate of immune cells (1/cell*day)
 d1 = 0.3743; %natural death rate of immune cells (1/day)
@@ -18,9 +18,9 @@ c2 = 1; %Immune kill rate of tumor cells (1/cell*day)
 
 
 N10 = 0.00001;   % Initial Immune cell population
-%N20 = 1;        % Initial tumor cell population for a small tumor burden (x10^6)
+% N20 = 0.25;        % Initial tumor cell population for a small tumor burden (x10^6)
 N20= 10;         % Initial tumor cell population for a large tumor burden
-tend = 50;       % Simulation length (time)
+tend = 10;       % Simulation length (time)
 
 N0=[N10 N20];
 
@@ -62,32 +62,39 @@ T1 = linspace(0,1000);
 %%Nullcline of Immune cells
 Nullcline1 = s.*(sigma + T1)./((c1.*T1 + d1).*(sigma + T1)-ro.*T1); %dI/dt = 0
 Nullcline2= (a.*(1-b.*T1))./c2 ; %dT/dt = 0
-%Quiver
-% [x,y] = meshgrid(0:3, 0:500);
+% Quiver
+% [x,y] = meshgrid(0:3, 0:1000);
 % u = s+(ro.*x.*y)./(sigma+y)-c1.*x.*y-d1.*x;
 % v = a.*x.*(1-b.*y)-c2.*x.*y; 
 % quiver(x,y,u,v); 
-hold on
+% hold on
 plot(Nullcline1, T1,'k');
 xlim([0 3]); 
-ylim([100 600]); %re-scaled
+ ylim([0 1000]); %re-scaled
   hold on
  plot(Nullcline2, T1,'k--'); 
+ set(gca, 'YScale', 'log');
+ set(gca, 'XScale', 'linear');
+  hold on
+  plot(N(:,1), N(:,2));
+%  
+
  hold on
-
  
-
-% fixed points drawn as an x
+%  fixed points drawn as an x
 plot (0.181778,444.444444444444, 'ro'); 
 plot(0.763467,266.667, 'bo');
 plot(0.97499,202.02, 'bo');
+plot(1.58656,14.2431, 'bo');
 
-% labeling and legend
+
+% % labeling and legend
 xlabel('Immune cell population (X10^6)');
 ylabel('Tumor Cell population (X10^6)');
-legend('N1 (dI/dt = 0)', 'N2 (dT/dt = 0)', 'A(0.181, 444.44) Stable Fixed point', ' B(0.744, 272.73) Unstable Fixed point','C(0.97499,202.02) Unstable Fixed point');
-title('Immune cells vs Tumor cells');
-   
+lgd = legend('N1 (dI/dt = 0)', 'N2 (dT/dt = 0)','I vs T', 'A(0.181, 444.44) Stable', ' B(0.744, 272.73) Unstable','C(0.97499,202.02) Unstable', 'D(1.58656,14.2431) Unstable');
+lgd.FontSize = 5;
+title('Nullclines');
+%    
 hold off
 
 %end

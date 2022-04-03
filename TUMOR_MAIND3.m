@@ -51,23 +51,19 @@ lgd = legend('N1 (dI/dt = 0)', 'N2 (dT/dt = 0)','I vs T', 'A(0.181, 444.44) Stab
 lgd.FontSize = 5;
 title('Nullclines');    
 
-N10 = linspace(0.0001,0.2,2);      % Initial Immune cell population
-N20 = linspace(0.1,10,2);         % Initial tumor cell population for a small tumor burden (x10^6)
-N30 = 0;
-% Initial tumor cell population for a small tumor burden (x10^6)
-%N20 = 10;          % Initial tumor cell population for a large tumor burden
-tend = 150;         % Simulation length (time)
+N10 = 0.001;      % Initial Immune cell population (*10^6)
+N20= 1;           % Initial tumor cell population (tumor burden) (*10^6)
+N30 = 1;          %Initial drug given
+tend = 100;          % Simulation length (time)
 
-for i = 1:length(N20)
-    for j = 1:length(N10)
-        N0=[N10(j) N20(i)];
+% Plot trajectories without drug
+   N0=[N10 N20];
 
-        [t,N] = ode45('TUMOR_ODE',[0 tend],N0,[],s,d1,a,b,c1,c2,sigma,ro); 
-        plot(N(:,1), N(:,2));
-    end
-end
+   [t,N] = ode45('TUMOR_ODE',[0 tend],N0,[],s,d1,a,b,c1,c2,sigma,ro); 
+   plot(N(:,1), N(:,2));
 
-% Plot drug trajectories 
+
+% Plot trajectories with drug 
         N0=[N10 N20 N30];
 
         opts = odeset('MaxStep',1e-2);
@@ -94,14 +90,14 @@ hold off
 % plot(t, N(:,3)) %plots drug over time
 %     xlabel('Time')
 %     ylabel('Drug delivered')
-
-
+% 
+% 
 % figure 
-
-%Kill rate of Drug
-
-%subplot(2,1,1)
-
+% 
+% %Kill rate of Drug
+% 
+% subplot(2,1,1)
+% 
 % u= linspace(0,10);
 % Fu=k2.*(1-exp(-u)); %Fu is the per cell kill rate
 % hold on
@@ -110,10 +106,10 @@ hold off
 % ylabel('Per tumor cell kill rate');
 % 
 % yline(k2,'r--','Saturation level')
-
-%the solution for Q1a
-
- 
+% 
+% %the solution for Q1a
+% 
+%  
 %  subplot(2,1,2)
 % i = linspace(0,10);
 % Fu=k1.*(1-exp(-u));

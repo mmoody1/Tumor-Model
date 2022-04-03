@@ -57,10 +57,10 @@ N30 = 1;          %Initial drug given
 tend = 100;          % Simulation length (time)
 
 % Plot trajectories without drug
-   N0=[N10 N20];
-
-   [t,N] = ode45('TUMOR_ODE',[0 tend],N0,[],s,d1,a,b,c1,c2,sigma,ro); 
-   plot(N(:,1), N(:,2));
+%    N0=[N10 N20];
+% 
+%    [t,N] = ode45('TUMOR_ODE',[0 tend],N0,[],s,d1,a,b,c1,c2,sigma,ro); 
+%    plot(N(:,1), N(:,2));
 
 
 % Plot trajectories with drug 

@@ -28,10 +28,10 @@ function Np = TUMOR_ODED2(t,N,flag,s,d1,d2,a,b,c1,c2,sigma,ro,k1,k2)
     if N(2)>0    
         Np(2) = a*N(2)*(1-b*N(2))-c2*N(1)*N(2)-k2*(1-exp(-N(3)));% Tumor cells equation
     else
-        Np(2)=0; %this prevents the drug from killing the tumor cells to negative population (Because that is unrealistic)
+        Np(2)=0; % prevents the drug from killing the tumor cells into a negative population-unrealistic
     end            
       
-    if t>1 && mod(t,2)<0.25  %determines the  number dosing cycles
+    if t>1 && mod(t,3)<0.25  %determines the  number dosing cycles in time t
         Np(3) = 1/0.25; %drug booster equation
       else
         Np(3) = -d2*N(3); %drug decay equation

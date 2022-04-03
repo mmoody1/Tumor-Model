@@ -23,9 +23,9 @@ k1 = 0.05;          % Drug toxicity to immune cells
 k2 = 1.636;          % Drug toxicity to tumor cells 
 
 
-N10 = 0.001;      % Initial Immune cell population
-N20= 1;           % Initial tumor cell population (tumor burden)
-N30 = 1;          %Initial drug at tumor site
+N10 = 0.001;      % Initial Immune cell population (*10^6)
+N20= 1;           % Initial tumor cell population (tumor burden) (*10^6)
+N30 = 1;          %Initial drug given
 tend = 100;          % Simulation length (time)
 
 N0=[N10 N20 N30];
@@ -54,42 +54,26 @@ figure
 
 %Kill rate of Drug
 
-%subplot(3,1,1)
+%subplot(2,1,1)
 
 u= linspace(0,10);
 Fu=k2.*(1-exp(-u)); %Fu is the per cell kill rate
+hold on
 plot(u, Fu);
 xlabel('Amount of Drug');
 ylabel('Per tumor cell kill rate');
 
-hold on
-yline(k2,'r--','Saturation level(k = 0.47)')
+yline(k2,'r--','Saturation level')
 
-% subplot(3,1,2)
-% 
-% Fu=k3.*(1-exp(-u)); %Fu is the per cell kill rate
-% plot(u, Fu)
-% hold on
-% xlabel('Amount of Drug');
-% ylabel('Per normal cell kill rate)');
-% yline(k3,'r--','Saturation level(k = 0.1)')
-% 
-% subplot(3,1,3)
+%the solution for Q1a
+
+ 
+%  subplot(2,1,2)
+% i = linspace(0,10);
 % Fu=k1.*(1-exp(-u));
-% plot(u, Fu);
+% plot(i, Fu);
 % hold on
-% yline(k1,'r--','Saturation level(k = 0.2)')
-% 
+% yline(k1,'r--','Saturation level')
+% % 
 % xlabel('Amount of Drug');
-% ylabel('Per immune cell kill rate)');
-
-% figure
-% plot(N(:,3), N(:,1))
-%  xlabel('Drug delivered')
-%  ylabel('Tumor cells')
-%  ylim([0 0.4]);
-%  
-% figure 
-% plot(N(:,3), N(:,4))
-% xlabel('Drug delivered')
-% ylabel('Normal cells')
+% ylabel('Per immune cell kill rate');

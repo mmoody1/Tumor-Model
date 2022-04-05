@@ -1,4 +1,4 @@
-function Np = TUMOR_ODED2(t,N,flag,s,d1,d2,a,b,c1,c2,sigma,ro,k1,k2)  
+function Np = TUMOR_ODED2(t,N,flag,s,d1,d2,a,b,c1,c2,sigma,ro,k1,k2,f,beta)  
  %TUMOR_ODE defines the ODEs for the Tumor Model including the drug
    
  % INPUT parameters:
@@ -13,6 +13,9 @@ function Np = TUMOR_ODED2(t,N,flag,s,d1,d2,a,b,c1,c2,sigma,ro,k1,k2)
     % c2 is the immune kill rate of tumor cells (1/cell*day)   
     % k1 is Drug toxicity to immune cells
     % k2 is Drug toxicity to tumor cells 
+    % f is the frequency of dosage
+    %beta is the concentration of booster drug
+
      
  % OUTPUT:
     % N(1) is the immune cell population = I
@@ -31,10 +34,10 @@ function Np = TUMOR_ODED2(t,N,flag,s,d1,d2,a,b,c1,c2,sigma,ro,k1,k2)
         Np(2)=0; % prevents the drug from killing the tumor cells into a negative population-unrealistic
     end            
       
-    if t>1 && mod(t,3)<0.25  %determines the  number dosing cycles in time t
-        Np(3) = 1/0.25; %drug booster equation
+    if t>1 && mod(t,f)<0.25  %determines the  number dosing cycles in time t
+        Np(3) = beta/0.25; %drug booster equation
       else
-        Np(3) = -d2*N(3); %drug decay equation
+        Np(3) = -d2*N(3); %drug natural decay equation
       end 
 
          
